@@ -36,7 +36,10 @@
         {
             int x = random.Next(0, 10);
             int y = random.Next(0, 10);
-            goodWorms.Add(new int[] { x, y });
+            if (!isGoodWorm(x, y))
+            {
+                goodWorms.Add(new int[] { x, y });
+            }
         }
 
         // Bad worms
@@ -46,7 +49,10 @@
         {
             int x = random.Next(0, 10);
             int y = random.Next(0, 10);
-            badWorms.Add(new int[] { x, y });
+            if (!isBadWorm(x, y))
+            {
+                badWorms.Add(new int[] { x, y });
+            }
         }
     }
 
@@ -67,6 +73,31 @@
             if (x == badWormArr[0] && y == badWormArr[1]) return true;
         }
         return false;
+    }
+
+    public void removeWorm(bool good, int x, int y)
+    {
+        if (good)
+        {
+            foreach (int[] goodWormArr in goodWorms)
+            {
+                if (x == goodWormArr[0] && y == goodWormArr[1])
+                {
+                    goodWorms.Remove(goodWormArr);
+                    break;
+                }
+            }
+        } else
+        {
+            foreach (int[] goodWormArr in badWorms)
+            {
+                if (x == goodWormArr[0] && y == goodWormArr[1])
+                {
+                    badWorms.Remove(goodWormArr);
+                    break;
+                }
+            }
+        }
     }
 
     public void addScore(int i)

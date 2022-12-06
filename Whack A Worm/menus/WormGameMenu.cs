@@ -30,7 +30,7 @@ public class WormGameMenu
         wormTimerThread.Start();
         while (isDisplayed && wormGame.getTimer() > 0)
         {
-            if (keyInput(Console.ReadKey())) break;
+            keyInput(Console.ReadKey());
         }
     }
 
@@ -114,12 +114,11 @@ public class WormGameMenu
             }
             left += 2;
         }
-        Thread.Sleep(500);
 
     }
     
     // Get key input and make changes to variables depending on key input
-    public bool keyInput(ConsoleKeyInfo key)
+    public void keyInput(ConsoleKeyInfo key)
     {
         int oldX = selectedGridPosition[0];
         int oldY = selectedGridPosition[1];
@@ -163,15 +162,15 @@ public class WormGameMenu
                 if (wormGame.isGoodWorm(oldX, oldY))
                 {
                     Console.Beep();
-                    this.wormGame.recycleWorms();
                     this.wormGame.addScore(1);
+                    this.wormGame.removeWorm(true, oldX, oldY);
                     updatedGrid = true;
                 }
 
                 if (wormGame.isBadWorm(oldX, oldY))
                 {
-                    this.wormGame.recycleWorms();
                     this.wormGame.removeScore(1);
+                    this.wormGame.removeWorm(false, oldX, oldY);
                     updatedGrid = true;
                 }
                 break;
@@ -183,8 +182,6 @@ public class WormGameMenu
         {
             refreshWormGrid();
         }
-
-        return false;
     }
 
     internal class WormThread
